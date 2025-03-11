@@ -1,0 +1,11 @@
+package ru.acceptance.acceptance_of_deliveries;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AcceptanceOfDeliveriesApplication { 
+    public static void main(String[] args) {
+        SpringApplication.run(AcceptanceOfDeliveriesApplication.class, args);
+    }
+}

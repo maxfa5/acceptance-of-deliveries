@@ -1,0 +1,30 @@
+package ru.acceptance.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.acceptance.model.Delivery;
+import ru.acceptance.service.DeliveryService;
+import java.util.List;
+
+
+@RestController
+@RequestMapping("/api/v1/delivery")
+public class DeliveryController {
+    private final DeliveryService deliveryService;
+
+    // Инъекция зависимости через конструктор
+    public DeliveryController(DeliveryService deliveryService) {
+        this.deliveryService = deliveryService;
+    }
+
+    @PostMapping
+    public Delivery createDelivery(@RequestBody DeliveryRequest request) {
+        return deliveryService.createDelivery(request);
+    }
+
+    @GetMapping
+    public List<Delivery> getAllDeliveries() {
+        return deliveryService.getAllDeliveries();
+    }
+
+}
