@@ -1,39 +1,33 @@
 package ru.acceptance.acceptance_of_deliveries.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.acceptance.acceptance_of_deliveries.model.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @Entity
-public class DeliveryItem {
-
-
+public class SupplierPrice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     @ManyToOne
-    @JoinColumn(name = "delivery_id", nullable = false)
-    private Delivery delivery;
+    @JoinColumn(name = "supplier_id", nullable = false)
+    private Supplier supplier;
 
-    @Setter
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @Column(nullable = false)
-    private BigDecimal quantity;
+    private BigDecimal price;
 
     @Column(nullable = false)
-    private BigDecimal pricePerUnit;
+    private LocalDate validFrom;
 
-    public void setQuantity(int quantity) {
-        this.quantity = new BigDecimal(quantity);
-    }
-    public void setPricePerUnit(int price) {
-        this.pricePerUnit = new BigDecimal(price);
-    }
 }

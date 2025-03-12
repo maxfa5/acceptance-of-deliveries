@@ -28,8 +28,9 @@ package ru.acceptance.acceptance_of_deliveries.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import lombok.*;
-@Builder
+
 @Entity
+@Data
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +38,8 @@ public class Product {
 
     private String name;
     private BigDecimal price;
-
+    private String type;
+    public Product() {
+    }
     // Геттеры и сеттеры
 }

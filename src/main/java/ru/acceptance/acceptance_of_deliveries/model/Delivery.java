@@ -2,6 +2,7 @@ package ru.acceptance.acceptance_of_deliveries.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.acceptance.acceptance_of_deliveries.model.Supplier;
 
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+@NoArgsConstructor
 @Entity
 @Table(name = "deliveries") // Optional: Specify table name
 public class Delivery {
@@ -21,16 +22,11 @@ public class Delivery {
     @JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
 
-    @Setter
-    @Getter
     @Column(nullable = false)
     private LocalDate deliveryDate;
 
     @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DeliveryItem> items = new ArrayList<>();
-
-    public Delivery() {
-    }
 
     public Delivery(Supplier supplier, LocalDate deliveryDate) {
         this.supplier = supplier;
@@ -39,6 +35,10 @@ public class Delivery {
 
     public Long getId() {
         return id;
+    }
+
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
     public void setId(Long id) {
