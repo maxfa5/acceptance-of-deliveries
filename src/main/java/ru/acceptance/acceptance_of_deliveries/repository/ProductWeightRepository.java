@@ -6,7 +6,6 @@ import org.springframework.data.repository.query.Param;
 import ru.acceptance.acceptance_of_deliveries.model.Product;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface ProductWeightRepository extends JpaRepository<Product, Long> {

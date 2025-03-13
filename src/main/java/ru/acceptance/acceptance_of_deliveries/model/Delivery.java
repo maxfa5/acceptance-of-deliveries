@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @NoArgsConstructor
 @Setter
 @Getter
@@ -22,6 +26,7 @@ public class Delivery {
     private Long id;
 
     @ManyToOne
+    @JsonManagedReference 
     @JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
 
@@ -35,7 +40,7 @@ public class Delivery {
 
     @Column(nullable = false)
     private BigDecimal Price = BigDecimal.valueOf(0);
-
+    @JsonBackReference
     @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DeliveryItem> items = new ArrayList<>();
 

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Отчёт</title>
+</head>
+<body>
+    <form th:action="@{/report}" method="post">
+        <div>
+            <label>Начальная дата:</label>
+            <input type="date" name="startDate" required />
+        </div>
+        <div>
+            <label>Конечная дата:</label>
+            <input type="date" name="endDate" required />
+        </div>
+        <button type="submit">Сгенерировать отчёт</button>
+    </form>
+</body>
+</html>

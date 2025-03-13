@@ -2,7 +2,6 @@ package ru.acceptance.acceptance_of_deliveries.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import ru.acceptance.acceptance_of_deliveries.DTO.DeliveryItemRequest;
 import ru.acceptance.acceptance_of_deliveries.DTO.SupplierProductReport;
@@ -12,7 +11,6 @@ import ru.acceptance.acceptance_of_deliveries.repository.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -39,26 +37,23 @@ public class DeliveryService {
         return deliveryRepository.findAll();
     }
 
+    public List<SupplierProductReport> generateReport(LocalDateTime startDate, LocalDateTime endDate) {
+        return deliveryRepository.getSupplierProductReport(startDate, endDate);
+    }
     @Autowired
     private ProductPriceRepository productPriceRepository;
 
     public Delivery createDelivery(Long supplierId, List<DeliveryItemRequest> items) {
-        // Проверка существования поставщика
         Supplier supplier = supplierRepository.findById(supplierId)
                 .orElseThrow(() -> new RuntimeException("Supplier not found with id: " + supplierId));
 
-        // Создание поставки
         Delivery delivery = new Delivery();
         delivery.setSupplier(supplier);
         delivery.setDeliveryDate(LocalDate.now());
 
-        // Добавление позиций
         for (DeliveryItemRequest itemRequest : items) {
-            // Проверка существования продукта
             Product product = productRepository.findById(itemRequest.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found with id: " + itemRequest.getProductId()));
-
-            // Создание позиции
             DeliveryItem item = new DeliveryItem();
             item.setQuantity(itemRequest.getQuantity());
             item.setProduct(product);
@@ -75,7 +70,6 @@ public class DeliveryService {
 
         }
 
-        // Сохранение поставки (позиции сохранятся каскадно)
         return deliveryRepository.save(delivery);
     }
 

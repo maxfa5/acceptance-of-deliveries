@@ -31,6 +31,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Data
 public class Product {
     private BigDecimal weight;
@@ -40,6 +41,5 @@ public class Product {
 
     private String name;
     private String type;
-    public Product() {
-    }
+
 }

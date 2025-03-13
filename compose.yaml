@@ -3,7 +3,7 @@ services:
     build: .
     image: acceptance-of-deliveries 
     ports:
-      - "8082:8080"
+      - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/deliveries
       SPRING_DATASOURCE_USERNAME: myuser

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Приёмка поставки</title>
+    <script>
+        let itemIndex = 0;
+
+        function addItemRow() {
+            const container = document.getElementById("items-container");
+            const row = document.createElement("div");
+            row.innerHTML = `
+                <div>
+                    <label>Продукт:</label>
+                    <select name="items[${itemIndex}].productId">
+                        <option th:each="product : ${products}" 
+                                th:value="${product.id}" 
+                                th:text="${product.name}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label>Количество:</label>
+                    <input type="number" name="items[${itemIndex}].quantity" />
+                </div>
+                <hr>
+            `;
+            container.appendChild(row);
+            itemIndex++;
+        }
+    </script>
+</head>
+<body>
+    <h1>Форма приёмки поставки</h1>
+
+    <form th:action="@{/delivery/save}" th:object="${delivery}" method="post">
+        <div>
+            <label>Поставщик:</label>
+            <select th:field="*{supplierId}">
+                <option th:each="supplier : ${suppliers}" 
+                        th:value="${supplier.id}" 
+                        th:text="${supplier.name}"></option>
+            </select>
+        </div>
+        <div>
+            <label>Дата поставки:</label>
+            <input type="date" th:field="*{deliveryDate}" />
+        </div>
+        <div id="items-container">
+            <div>
+                <div>
+                    <label>Продукт:</label>
+                    <select name="items[0].productId">
+                        <option th:each="product : ${products}" 
+                                th:value="${product.id}" 
+                                th:text="${product.name}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label>Количество:</label>
+                    <input type="number" name="items[0].quantity" />
+                </div>
+                <hr>
+            </div>
+        </div>
+        <button type="button" onclick="addItemRow()">Добавить продукт</button>
+        <button type="submit">Сохранить поставку</button>
+    </form>
+</body>
+</html>

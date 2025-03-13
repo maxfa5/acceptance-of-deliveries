@@ -3,13 +3,10 @@ package ru.acceptance.acceptance_of_deliveries.repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.format.annotation.DateTimeFormat;
 import ru.acceptance.acceptance_of_deliveries.DTO.SupplierProductReport;
 import ru.acceptance.acceptance_of_deliveries.model.Delivery;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {

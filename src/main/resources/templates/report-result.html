@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Результаты отчёта</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Поставщик</th>
+            <th>Продукт</th>
+            <th>Общий вес</th>
+            <th>Общая стоимость</th>
+        </tr>
+        <tr th:each="item : ${reportData}">
+            <td th:text="${item.supplierName}"></td>
+            <td th:text="${item.productName}"></td>
+            <td th:text="${item.totalWeight}"></td>
+            <td th:text="${item.totalCost}"></td>
+        </tr>
+    </table>
+</body>
+</html>
