@@ -2,17 +2,17 @@ package ru.acceptance.acceptance_of_deliveries.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import ru.acceptance.acceptance_of_deliveries.DTO.DeliveryItemRequest;
-import ru.acceptance.acceptance_of_deliveries.DTO.DeliveryRequest;
-import ru.acceptance.acceptance_of_deliveries.model.Delivery;
-import ru.acceptance.acceptance_of_deliveries.model.DeliveryItem;
-import ru.acceptance.acceptance_of_deliveries.model.Product;
-import ru.acceptance.acceptance_of_deliveries.model.Supplier;
+import ru.acceptance.acceptance_of_deliveries.DTO.SupplierProductReport;
+import ru.acceptance.acceptance_of_deliveries.repository.ReportRepository;
+import ru.acceptance.acceptance_of_deliveries.model.*;
 import ru.acceptance.acceptance_of_deliveries.repository.*;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -25,14 +25,22 @@ public class DeliveryService {
     private DeliveryItemRepository deliveryItemRepository;
 
     @Autowired
+    private ReportRepository reportRepository;
+
+    @Autowired
     private ProductRepository productRepository;
 
     @Autowired
     private SupplierRepository supplierRepository;
 
-    public List<Delivery> getAllDeliveries() {
+    public List<Delivery> getDeliveriesBetweenDates(LocalDate startDate, LocalDate endDate) {
+        List<Delivery> deliveriesInDateRange = reportRepository.findBetweenDates(startDate.atStartOfDay(), endDate.atStartOfDay());
+
         return deliveryRepository.findAll();
     }
+
+    @Autowired
+    private ProductPriceRepository productPriceRepository;
 
     public Delivery createDelivery(Long supplierId, List<DeliveryItemRequest> items) {
         // Проверка существования поставщика
@@ -52,33 +60,27 @@ public class DeliveryService {
 
             // Создание позиции
             DeliveryItem item = new DeliveryItem();
-            item.setProduct(product);
             item.setQuantity(itemRequest.getQuantity());
-            item.setDelivery(delivery); // Установите связь с Delivery
-            item.setPricePerUnit(1);//TODO!!
-            // Добавление позиции в список
+            item.setProduct(product);
+            item.setWeight(product.getWeight().multiply(item.getQuantity()));
+            ProductPrice productPrice = productPriceRepository.findLatestPrice(
+                            itemRequest.getProductId(), LocalDateTime.now())
+                    .orElseThrow(() -> new RuntimeException("Price not found for product ID: " + itemRequest.getProductId()));            // Добавление позиции в список
+            item.setPriceOfDeliveryItem(productPrice.getPrise().multiply(item.getQuantity()));
+
+            item.setDelivery(delivery);
             delivery.getItems().add(item);
+            delivery.setWeight(delivery.getWeight().add(item.getWeight()));
+            delivery.setPrice(delivery.getPrice().add(item.getPriceOfDeliveryItem()));
+
         }
 
         // Сохранение поставки (позиции сохранятся каскадно)
         return deliveryRepository.save(delivery);
     }
+
+    public List<SupplierProductReport> getSupplierProductReport(LocalDateTime startDate, LocalDateTime endDate) {
+        return deliveryRepository.getSupplierProductReport(startDate, endDate);
+    }
+
 }
-//    public void createSampleDeliveries() {
-//        // Получаем поставщика (предположим, что он уже существует)
-//        Supplier supplier = supplierRepository.findById(1L)
-//            .orElseThrow(() -> new RuntimeException("Supplier not found"));
-//
-//        // Создаем первую поставку
-//        Delivery delivery1 = new Delivery();
-//        delivery1.setSupplier(supplier);
-//        delivery1.setDeliveryDate(LocalDate.now());
-//        deliveryRepository.save(delivery1);
-//
-//        // Создаем вторую поставку
-//        Delivery delivery2 = new Delivery();
-//        delivery2.setSupplier(supplier);
-//        delivery2.setDeliveryDate(LocalDate.now().plusDays(1));
-//        deliveryRepository.save(delivery2);
-//    }
-//}

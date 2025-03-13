@@ -30,16 +30,16 @@ import java.math.BigDecimal;
 import lombok.*;
 
 @Entity
+@Getter
 @Data
 public class Product {
+    private BigDecimal weight;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private BigDecimal price;
     private String type;
     public Product() {
     }
-    // Геттеры и сеттеры
 }

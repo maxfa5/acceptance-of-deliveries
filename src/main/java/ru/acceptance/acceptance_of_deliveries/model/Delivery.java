@@ -4,13 +4,16 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.acceptance.acceptance_of_deliveries.model.Supplier;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 @NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "deliveries") // Optional: Specify table name
 public class Delivery {
@@ -23,42 +26,26 @@ public class Delivery {
     private Supplier supplier;
 
     @Column(nullable = false)
-    private LocalDate deliveryDate;
+    private LocalDateTime deliveryDate;
+
+
+    @Column(nullable = false)
+    private BigDecimal Weight = BigDecimal.valueOf(0);
+
+
+    @Column(nullable = false)
+    private BigDecimal Price = BigDecimal.valueOf(0);
 
     @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DeliveryItem> items = new ArrayList<>();
 
     public Delivery(Supplier supplier, LocalDate deliveryDate) {
         this.supplier = supplier;
-        this.deliveryDate = deliveryDate;
-    }
-
-    public Long getId() {
-        return id;
+        this.deliveryDate = deliveryDate.atStartOfDay();
     }
 
     public void setDeliveryDate(LocalDate deliveryDate) {
-        this.deliveryDate = deliveryDate;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Supplier getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
-
-    public List<DeliveryItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<DeliveryItem> items) {
-        this.items = items;
+        this.deliveryDate = deliveryDate.atStartOfDay();
     }
 
     @Override
@@ -83,4 +70,6 @@ public class Delivery {
                 ", items=" + items +
                 '}';
     }
+
+
 }
