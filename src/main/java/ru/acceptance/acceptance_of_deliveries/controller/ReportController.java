@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import ru.acceptance.acceptance_of_deliveries.DTO.SupplierProductReport;
@@ -36,6 +36,7 @@ public class ReportController {
     @Autowired
     private DeliveryService deliveryService;
     @GetMapping("api/report/generate")
+    @ResponseBody
     public List<SupplierProductReport> getSupplierProductReport(
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime startDate,
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime endDate
