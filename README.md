@@ -8,9 +8,11 @@
 * ![Таблица Product](img/5.png)
 
 ```Таблица Product```
+
 * ![Таблица product_price](img/6.png)
 
 ```Таблица product_price```
+
 * ![Таблица Supplier](img/7.png)
 
 ```Таблица Supplier```
