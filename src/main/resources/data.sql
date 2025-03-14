@@ -1,4 +1,3 @@
--- data.sql
 
 -- Вставка данных в таблицу product, избегая дубликатов по id
 INSERT INTO product (id, name, type, weight)

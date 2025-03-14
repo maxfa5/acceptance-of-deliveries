@@ -2,8 +2,20 @@
 
 ## Первый запуск
 
-Для запуска нужно выполнить команду  ```./gradlew BootJar``` и ``` docker-compose up ``` 
-База данных 
+Для запуска нужно выполнить команду  ```./gradlew BootJar``` и ``` docker-compose up ```
+
+База данных иннициализируется начальными значениями:
+* ![Таблица Product](img/5.png)
+
+```Таблица Product```
+* ![Таблица product_price](img/6.png)
+
+```Таблица product_price```
+* ![Таблица Supplier](img/7.png)
+
+```Таблица Supplier```
+
+
 ## Реализованное API
 
 Для создания поставки(api/deliveries):
