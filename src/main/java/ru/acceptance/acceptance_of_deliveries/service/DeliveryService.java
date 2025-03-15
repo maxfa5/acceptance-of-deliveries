@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.acceptance.acceptance_of_deliveries.DTO.DeliveryItemRequest;
 import ru.acceptance.acceptance_of_deliveries.DTO.SupplierProductReport;
-import ru.acceptance.acceptance_of_deliveries.repository.ReportRepository;
 import ru.acceptance.acceptance_of_deliveries.model.*;
 import ru.acceptance.acceptance_of_deliveries.repository.*;
 
@@ -19,11 +18,6 @@ public class DeliveryService {
     @Autowired
     private DeliveryRepository deliveryRepository;
 
-    @Autowired
-    private DeliveryItemRepository deliveryItemRepository;
-
-    @Autowired
-    private ReportRepository reportRepository;
 
     @Autowired
     private ProductRepository productRepository;
@@ -31,15 +25,7 @@ public class DeliveryService {
     @Autowired
     private SupplierRepository supplierRepository;
 
-    public List<Delivery> getDeliveriesBetweenDates(LocalDate startDate, LocalDate endDate) {
-        List<Delivery> deliveriesInDateRange = reportRepository.findBetweenDates(startDate.atStartOfDay(), endDate.atStartOfDay());
 
-        return deliveryRepository.findAll();
-    }
-
-    public List<SupplierProductReport> generateReport(LocalDateTime startDate, LocalDateTime endDate) {
-        return deliveryRepository.getSupplierProductReport(startDate, endDate);
-    }
     @Autowired
     private ProductPriceRepository productPriceRepository;
 
