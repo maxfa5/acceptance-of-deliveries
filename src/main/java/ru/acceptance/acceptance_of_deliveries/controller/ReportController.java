@@ -43,4 +43,11 @@ public class ReportController {
     ) {
         return deliveryService.getSupplierProductReport(startDate, endDate);
     }
+
+    @GetMapping("/reports")
+    public String getAllSupplierProductReports(Model model) {
+        List<SupplierProductReport> reportData =  deliveryService.getAllSupplierProductReports();
+        model.addAttribute("reportData", reportData);
+        return "report-result";
+    }
 }

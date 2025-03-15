@@ -63,4 +63,8 @@ public class DeliveryService {
         return deliveryRepository.getSupplierProductReport(startDate, endDate);
     }
 
+    public List<SupplierProductReport> getAllSupplierProductReports() {
+        return deliveryRepository.getAllSupplierProductReports();
+    }
+
 }

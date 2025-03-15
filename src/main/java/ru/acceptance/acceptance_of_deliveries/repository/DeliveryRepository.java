@@ -24,4 +24,14 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
     );
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Query("SELECT NEW ru.acceptance.acceptance_of_deliveries.DTO.SupplierProductReport(" +
+            "s.name, p.name, SUM(i.weight), SUM(i.priceOfDeliveryItem)) " +
+            "FROM Delivery d " +
+            "JOIN d.supplier s " +
+            "JOIN d.items i " +
+            "JOIN i.product p " +
+            "GROUP BY s.name, p.name")
+    List<SupplierProductReport> getAllSupplierProductReports();
 }
