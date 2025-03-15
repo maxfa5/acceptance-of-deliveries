@@ -4,6 +4,11 @@
 
 Для запуска нужно выполнить команду  ```./gradlew BootJar``` и ``` docker-compose up ```
 
+### Homepage
+
+* ![Homepage](img/8.png)
+
+
 База данных иннициализируется начальными значениями:
 
 * ![Таблица Product](img/5.png)

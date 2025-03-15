@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-top: 50px;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .date-input {
+            margin: 10px;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Добро пожаловать в систему приёмки поставок!</h1>
+    <div class="container">
+        <a href="/delivery/new" class="button">Создать новую поставку</a>
+    </div>
+    <div class="container">
+        <h2>Сгенерировать отчёт</h2>
+        <label for="startDate">Начальная дата:</label>
+        <input type="date" id="startDate" class="date-input">
+
+        <label for="endDate">Конечная дата:</label>
+        <input type="date" id="endDate" class="date-input">
+
+        <button onclick="generateReport()" class="button">Сгенерировать отчёт</button>
+    </div>
+
+    <script>
+        function generateReport() {
+            // Получаем значения дат
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            // Проверяем, что обе даты выбраны
+            if (!startDate || !endDate) {
+                alert("Пожалуйста, выберите начальную и конечную даты.");
+                return;
+            }
+
+            // Формируем URL для запроса отчёта
+            const url = `/report/generate?startDate=${startDate}T00:00:00&endDate=${endDate}T23:59:59`;
+
+            // Перенаправляем пользователя на страницу с отчётом
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>
